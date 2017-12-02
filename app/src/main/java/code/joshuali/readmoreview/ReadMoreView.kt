@@ -31,6 +31,7 @@ class ReadMoreView : View{
     private var textPaint = TextPaint()
     private var moreTextPaint = TextPaint()
     private var moreBgPaint = Paint()
+    private var clearPaint = Paint()
     private lateinit var gradient : LinearGradient
 
     private var singleLineHeight = 0
@@ -48,6 +49,7 @@ class ReadMoreView : View{
         moreTextPaint.textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, textSize, resources.displayMetrics)
         moreTextPaint.color = moreTextColor
 
+        clearPaint.color = Color.WHITE
     }
 
     constructor(ctx: Context) : super(ctx)
@@ -76,14 +78,14 @@ class ReadMoreView : View{
 
     fun setText(text: String) {
         this.text = text
-        staticLayout = StaticLayout(text,0, text.length, textPaint, width, Layout.Alignment.ALIGN_NORMAL, 1f, 0f ,false)
+        staticLayout = StaticLayout(text,0, text.length, textPaint, width - paddingLeft - paddingRight, Layout.Alignment.ALIGN_NORMAL, 1f, 0f ,false)
         showAll = staticLayout!!.height <= singleLineHeight * truncateLines
         requestLayout()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        val width = measuredWidth
+        val width = measuredWidth - paddingLeft - paddingRight
         if (width > 0 && staticLayout == null) {
             moreStaticLayout = StaticLayout(moreText, moreTextPaint, width, Layout.Alignment.ALIGN_NORMAL, 1f, 0f, false)
             singleLineHeight = StaticLayout("", textPaint, width, Layout.Alignment.ALIGN_NORMAL, 1f, 0f ,false).height
@@ -96,13 +98,13 @@ class ReadMoreView : View{
             showAll = staticLayout!!.height <= singleLineHeight * truncateLines
         }
 
-        setMeasuredDimension(width, if (showAll) staticLayout!!.height else Math.min(staticLayout!!.height, singleLineHeight * truncateLines))
+        setMeasuredDimension(measuredWidth, (if (showAll) staticLayout!!.height else Math.min(staticLayout!!.height, singleLineHeight * truncateLines)) + paddingTop + paddingBottom)
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event != null && !showAll) {
-            if (event.x >= width - moreWidth && event.y >= height - moreHeight) {
+            if (event.x >= width - paddingRight - moreWidth && event.y >= height - paddingBottom - moreHeight) {
                 showAll = true
                 requestLayout()
             }
@@ -111,15 +113,17 @@ class ReadMoreView : View{
     }
 
     override fun onDraw(canvas: Canvas?) {
+        canvas?.save()
+        canvas?.translate(paddingLeft.toFloat(), paddingTop.toFloat())
         staticLayout?.draw(canvas)
         if (!showAll) {
-            canvas?.save()
-            canvas?.translate(width - moreWidth - faddingLength - faddingPadding, (height - moreHeight).toFloat())
+            canvas?.drawRect(0f, (height - moreHeight).toFloat() + singleLineHeight - paddingTop - paddingBottom, width.toFloat(), height.toFloat(), clearPaint)
+            canvas?.translate(width - moreWidth - faddingLength - faddingPadding - paddingRight, (height - moreHeight).toFloat() - paddingTop - paddingBottom)
             canvas?.drawRect(0f, 0f, moreWidth + faddingLength + faddingPadding, moreHeight.toFloat(), moreBgPaint)
             canvas?.translate(faddingLength + faddingPadding, 0f)
             moreStaticLayout?.draw(canvas)
-            canvas?.restore()
         }
+        canvas?.restore()
         super.onDraw(canvas)
     }
 

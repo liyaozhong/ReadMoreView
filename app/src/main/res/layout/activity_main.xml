@@ -19,7 +19,11 @@
         app:faddingLength="32dp"
         app:faddingPadding="8dp"
         app:showLine="3"
-        android:layout_margin="5dp"/>
+        android:layout_margin="5dp"
+        android:paddingTop="30dp"
+        android:paddingBottom="50dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="30dp"/>
 
     <Button
         android:layout_width="match_parent"
