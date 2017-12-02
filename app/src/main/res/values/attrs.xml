@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ReadMoreViewAttr">
+        <attr name="textSize" format="dimension"/>
+        <attr name="textColor" format="color"/>
+        <attr name="moreTextColor" format="color"/>
+        <attr name="text" format="string"/>
+        <attr name="moreText" format="string"/>
+        <attr name="faddingLength" format="dimension"/>
+        <attr name="faddingPadding" format="dimension"/>
+        <attr name="showLine" format="integer"/>
+    </declare-styleable>
+
+</resources>

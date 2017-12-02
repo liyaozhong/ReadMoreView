@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,6 +10,13 @@
         android:id="@+id/readmore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:text="Thank you for using GitHub! We're happy you're here. Please read this Terms of Service agreement carefully before accessing or using GitHub. Because it is such an important contract between us and our users, we have tried to make it as clear as possible. For your convenience, we have presented these terms in a short non-binding summary followed by the full legal terms."
+        app:textColor="@color/colorPrimaryDark"
+        app:moreText="MORE"
+        app:moreTextColor="@color/colorAccent"
+        app:textSize="14sp"
+        app:faddingLength="32dp"
+        app:faddingPadding="8dp"
+        app:showLine="3"/>
 
-</android.support.constraint.ConstraintLayout>
+</FrameLayout>
