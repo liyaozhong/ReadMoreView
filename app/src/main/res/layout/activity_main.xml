@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="code.joshuali.readmoreview.MainActivity">
+    tools:context="code.joshuali.readmoreview.MainActivity"
+    android:orientation="vertical">
 
     <code.joshuali.readmoreview.ReadMoreView
         android:id="@+id/readmore"
@@ -17,6 +18,13 @@
         app:textSize="14sp"
         app:faddingLength="32dp"
         app:faddingPadding="8dp"
-        app:showLine="3"/>
+        app:showLine="3"
+        android:layout_margin="5dp"/>
 
-</FrameLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="click"
+        android:onClick="onClick"/>
+
+</LinearLayout>

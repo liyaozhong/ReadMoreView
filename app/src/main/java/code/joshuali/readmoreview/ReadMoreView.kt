@@ -7,7 +7,6 @@ import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextPaint
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
@@ -68,6 +67,7 @@ class ReadMoreView : View{
         truncateLines = typedArray.getInt(R.styleable.ReadMoreViewAttr_showLine, Int.MAX_VALUE)
         typedArray.recycle()
 
+        setBackgroundColor(Color.WHITE)
         textPaint.color = textColor
         textPaint.textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, textSize, resources.displayMetrics)
         moreTextPaint.color = moreTextColor
@@ -75,7 +75,10 @@ class ReadMoreView : View{
     }
 
     fun setText(text: String) {
-//        requestLayout()
+        this.text = text
+        staticLayout = StaticLayout(text,0, text.length, textPaint, width, Layout.Alignment.ALIGN_NORMAL, 1f, 0f ,false)
+        showAll = staticLayout!!.height <= singleLineHeight * truncateLines
+        requestLayout()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -87,12 +90,12 @@ class ReadMoreView : View{
             moreWidth = moreStaticLayout!!.getLineWidth(0)
             moreHeight = moreStaticLayout!!.height
             val totalWidth = moreWidth + faddingLength + faddingPadding
-
             gradient = LinearGradient(0f, 0f, totalWidth, moreHeight.toFloat(), intArrayOf(Color.parseColor("#00FFFFFF"), Color.parseColor("#FFFFFFFF"), Color.parseColor("#FFFFFFFF")), floatArrayOf(0f, faddingLength/totalWidth, 1f), Shader.TileMode.CLAMP)
             moreBgPaint.shader = gradient
             staticLayout = StaticLayout(text,0, text.length, textPaint, width, Layout.Alignment.ALIGN_NORMAL, 1f, 0f ,false)
             showAll = staticLayout!!.height <= singleLineHeight * truncateLines
         }
+
         setMeasuredDimension(width, if (showAll) staticLayout!!.height else Math.min(staticLayout!!.height, singleLineHeight * truncateLines))
     }
 
