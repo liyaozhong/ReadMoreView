@@ -33,6 +33,7 @@ class ReadMoreView : View{
     private var moreBgPaint = Paint()
     private var clearPaint = Paint()
     private lateinit var gradient : LinearGradient
+    private var bgColor = Color.WHITE
 
     private var singleLineHeight = 0
     private var moreWidth = 0f
@@ -67,13 +68,15 @@ class ReadMoreView : View{
         faddingLength = typedArray.getDimension(R.styleable.ReadMoreViewAttr_faddingLength, 0f)
         faddingPadding = typedArray.getDimension(R.styleable.ReadMoreViewAttr_faddingPadding, 0f)
         truncateLines = typedArray.getInt(R.styleable.ReadMoreViewAttr_showLine, Int.MAX_VALUE)
+        bgColor = typedArray.getColor(R.styleable.ReadMoreViewAttr_backgroundColor, Color.WHITE)
         typedArray.recycle()
 
-        setBackgroundColor(Color.WHITE)
         textPaint.color = textColor
         textPaint.textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, textSize, resources.displayMetrics)
         moreTextPaint.color = moreTextColor
         moreTextPaint.textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, textSize, resources.displayMetrics)
+        setBackgroundColor(bgColor)
+        clearPaint.color = bgColor
     }
 
     fun setText(text: String) {
@@ -92,7 +95,10 @@ class ReadMoreView : View{
             moreWidth = moreStaticLayout!!.getLineWidth(0)
             moreHeight = moreStaticLayout!!.height
             val totalWidth = moreWidth + faddingLength + faddingPadding
-            gradient = LinearGradient(0f, 0f, totalWidth, moreHeight.toFloat(), intArrayOf(Color.parseColor("#00FFFFFF"), Color.parseColor("#FFFFFFFF"), Color.parseColor("#FFFFFFFF")), floatArrayOf(0f, faddingLength/totalWidth, 1f), Shader.TileMode.CLAMP)
+            val r = (bgColor and 0xff0000) shr 16
+            val g = (bgColor and 0x00ff00) shr 8
+            val b = bgColor and 0x0000ff
+            gradient = LinearGradient(0f, 0f, totalWidth, moreHeight.toFloat(), intArrayOf(Color.argb(0, r, g, b), Color.argb(255, r, g, b), Color.argb(255, r, g, b)), floatArrayOf(0f, faddingLength/totalWidth, 1f), Shader.TileMode.CLAMP)
             moreBgPaint.shader = gradient
             staticLayout = StaticLayout(text,0, text.length, textPaint, width, Layout.Alignment.ALIGN_NORMAL, 1f, 0f ,false)
             showAll = staticLayout!!.height <= singleLineHeight * truncateLines

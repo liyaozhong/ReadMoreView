@@ -10,6 +10,7 @@
         <attr name="faddingLength" format="dimension"/>
         <attr name="faddingPadding" format="dimension"/>
         <attr name="showLine" format="integer"/>
+        <attr name="backgroundColor" format="color"/>
     </declare-styleable>
 
 </resources>
