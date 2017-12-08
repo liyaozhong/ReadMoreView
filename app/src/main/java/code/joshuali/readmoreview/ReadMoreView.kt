@@ -31,7 +31,7 @@ class ReadMoreView : View{
     private var textPaint = TextPaint()
     private var moreTextPaint = TextPaint()
     private var moreBgPaint = Paint()
-    private var backgroundPaint = Paint()
+    private var clearPaint = Paint()
     private lateinit var gradient : LinearGradient
     private var bgColor = Color.WHITE
 
@@ -39,6 +39,8 @@ class ReadMoreView : View{
     private var moreWidth = 0f
     private var moreHeight = 0
     private var showAll = false
+
+    private var needMeasure = false
 
     init {
         isEnabled = true
@@ -50,7 +52,7 @@ class ReadMoreView : View{
         moreTextPaint.textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, textSize, resources.displayMetrics)
         moreTextPaint.color = moreTextColor
 
-        backgroundPaint.color = Color.WHITE
+        clearPaint.color = Color.WHITE
     }
 
     constructor(ctx: Context) : super(ctx)
@@ -76,7 +78,7 @@ class ReadMoreView : View{
         moreTextPaint.color = moreTextColor
         moreTextPaint.textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, textSize, resources.displayMetrics)
         setBackgroundColor(bgColor)
-        backgroundPaint.color = bgColor
+        clearPaint.color = bgColor
     }
 
     fun setText(text: String) {
@@ -86,10 +88,16 @@ class ReadMoreView : View{
         requestLayout()
     }
 
+    override fun setPadding(left: Int, top: Int, right: Int, bottom: Int) {
+        super.setPadding(left, top, right, bottom)
+        needMeasure = true
+        requestLayout()
+    }
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val width = measuredWidth - paddingLeft - paddingRight
-        if (width > 0 && staticLayout == null) {
+        if (width > 0 && (staticLayout == null || needMeasure)) {
             moreStaticLayout = StaticLayout(moreText, moreTextPaint, width, Layout.Alignment.ALIGN_NORMAL, 1f, 0f, false)
             singleLineHeight = StaticLayout("", textPaint, width, Layout.Alignment.ALIGN_NORMAL, 1f, 0f ,false).height
             moreWidth = moreStaticLayout!!.getLineWidth(0)
@@ -101,7 +109,10 @@ class ReadMoreView : View{
             gradient = LinearGradient(0f, 0f, totalWidth, moreHeight.toFloat(), intArrayOf(Color.argb(0, r, g, b), Color.argb(255, r, g, b), Color.argb(255, r, g, b)), floatArrayOf(0f, faddingLength/totalWidth, 1f), Shader.TileMode.CLAMP)
             moreBgPaint.shader = gradient
             staticLayout = StaticLayout(text,0, text.length, textPaint, width, Layout.Alignment.ALIGN_NORMAL, 1f, 0f ,false)
-            showAll = staticLayout!!.height <= singleLineHeight * truncateLines
+            if (!needMeasure) {
+                showAll = staticLayout!!.height <= singleLineHeight * truncateLines
+            }
+            needMeasure = false
         }
 
         setMeasuredDimension(measuredWidth, (if (showAll) staticLayout!!.height else Math.min(staticLayout!!.height, singleLineHeight * truncateLines)) + paddingTop + paddingBottom)
@@ -123,12 +134,12 @@ class ReadMoreView : View{
         canvas?.translate(paddingLeft.toFloat(), paddingTop.toFloat())
         staticLayout?.draw(canvas)
         if (!showAll) {
-            //draw background
-            canvas?.drawRect(0f, (height - moreHeight).toFloat() + singleLineHeight - paddingTop - paddingBottom, width.toFloat(), height.toFloat(), backgroundPaint)
+            //draw clear area
+            canvas?.drawRect(0f, (height - moreHeight).toFloat() + singleLineHeight - paddingTop - paddingBottom, width.toFloat(), height.toFloat(), clearPaint)
             //draw gradient
-            canvas?.translate(width - moreWidth - faddingLength - faddingPadding - paddingRight, (height - moreHeight).toFloat() - paddingTop - paddingBottom)
+            canvas?.translate(width - paddingLeft - moreWidth - faddingLength - faddingPadding - paddingRight, (height - moreHeight).toFloat() - paddingTop - paddingBottom)
             canvas?.drawRect(0f, 0f, moreWidth + faddingLength + faddingPadding, moreHeight.toFloat(), moreBgPaint)
-            canvas?.translate(faddingLength + faddingPadding - paddingBottom, 0f)
+            canvas?.translate(faddingLength + faddingPadding, 0f)
             moreStaticLayout?.draw(canvas)
         }
         canvas?.restore()

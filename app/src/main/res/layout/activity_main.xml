@@ -1,34 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="code.joshuali.readmoreview.MainActivity"
-    android:orientation="vertical">
-
-    <code.joshuali.readmoreview.ReadMoreView
-        android:id="@+id/readmore"
+    android:layout_height="match_parent">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:text="Thank you for using GitHub! We're happy you're here. Please read this Terms of Service agreement carefully before accessing or using GitHub. Because it is such an important contract between us and our users, we have tried to make it as clear as possible. For your convenience, we have presented these terms in a short non-binding summary followed by the full legal terms."
-        app:textColor="@color/colorPrimaryDark"
-        app:moreText="MORE"
-        app:moreTextColor="@color/colorAccent"
-        app:textSize="14sp"
-        app:faddingLength="32dp"
-        app:faddingPadding="8dp"
-        app:showLine="3"
-        android:layout_margin="5dp"
-        android:padding="5dp"
-        app:backgroundColor="#777777"/>
+        tools:context="code.joshuali.readmoreview.MainActivity"
+        android:orientation="vertical">
 
+        <code.joshuali.readmoreview.ReadMoreView
+            android:id="@+id/readmore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:text="Thank you for using GitHub! We're happy you're here. Please read this Terms of Service agreement carefully before accessing or using GitHub. Because it is such an important contract between us and our users, we have tried to make it as clear as possible. For your convenience, we have presented these terms in a short non-binding summary followed by the full legal terms."
+            app:textColor="@color/colorPrimaryDark"
+            app:moreText="MORE"
+            app:moreTextColor="@color/colorAccent"
+            app:textSize="14sp"
+            app:faddingLength="32dp"
+            app:faddingPadding="8dp"
+            app:showLine="3"
+            android:layout_margin="5dp"
+            android:padding="0px"
+            app:backgroundColor="#777777"/>]
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="5dp"
+            android:background="#11000000">
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="reset"
-        android:onClick="onClick"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Padding"
+                android:padding="5dp"/>
 
-</LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Left"
+                    android:layout_gravity="center_vertical"/>
+
+                <SeekBar
+                    android:id="@+id/left_padding_seekbar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:max="300"
+                    android:tag="left_padding"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Right"
+                    android:layout_gravity="center_vertical"/>
+
+                <SeekBar
+                    android:id="@+id/right_padding_seekbar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:max="300"
+                    android:tag="right_padding"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Top"
+                    android:layout_gravity="center_vertical"/>
+
+                <SeekBar
+                    android:id="@+id/top_padding_seekbar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:max="300"
+                    android:tag="top_padding"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bottom"
+                    android:layout_gravity="center_vertical"/>
+
+                <SeekBar
+                    android:id="@+id/bottom_padding_seekbar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:max="300"
+                    android:tag="bottom_padding"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="reset"
+            android:onClick="onClick"/>
+
+    </LinearLayout>
+</ScrollView>
