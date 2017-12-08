@@ -31,7 +31,7 @@ class ReadMoreView : View{
     private var textPaint = TextPaint()
     private var moreTextPaint = TextPaint()
     private var moreBgPaint = Paint()
-    private var clearPaint = Paint()
+    private var backgroundPaint = Paint()
     private lateinit var gradient : LinearGradient
     private var bgColor = Color.WHITE
 
@@ -50,7 +50,7 @@ class ReadMoreView : View{
         moreTextPaint.textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, textSize, resources.displayMetrics)
         moreTextPaint.color = moreTextColor
 
-        clearPaint.color = Color.WHITE
+        backgroundPaint.color = Color.WHITE
     }
 
     constructor(ctx: Context) : super(ctx)
@@ -76,7 +76,7 @@ class ReadMoreView : View{
         moreTextPaint.color = moreTextColor
         moreTextPaint.textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, textSize, resources.displayMetrics)
         setBackgroundColor(bgColor)
-        clearPaint.color = bgColor
+        backgroundPaint.color = bgColor
     }
 
     fun setText(text: String) {
@@ -123,10 +123,12 @@ class ReadMoreView : View{
         canvas?.translate(paddingLeft.toFloat(), paddingTop.toFloat())
         staticLayout?.draw(canvas)
         if (!showAll) {
-            canvas?.drawRect(0f, (height - moreHeight).toFloat() + singleLineHeight - paddingTop - paddingBottom, width.toFloat(), height.toFloat(), clearPaint)
+            //draw background
+            canvas?.drawRect(0f, (height - moreHeight).toFloat() + singleLineHeight - paddingTop - paddingBottom, width.toFloat(), height.toFloat(), backgroundPaint)
+            //draw gradient
             canvas?.translate(width - moreWidth - faddingLength - faddingPadding - paddingRight, (height - moreHeight).toFloat() - paddingTop - paddingBottom)
             canvas?.drawRect(0f, 0f, moreWidth + faddingLength + faddingPadding, moreHeight.toFloat(), moreBgPaint)
-            canvas?.translate(faddingLength + faddingPadding, 0f)
+            canvas?.translate(faddingLength + faddingPadding - paddingBottom, 0f)
             moreStaticLayout?.draw(canvas)
         }
         canvas?.restore()
