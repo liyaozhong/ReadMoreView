@@ -94,6 +94,18 @@ class ReadMoreView : View{
         requestLayout()
     }
 
+    fun setFaddingLength(length: Float) {
+        faddingLength = length
+        needMeasure = true
+        requestLayout()
+    }
+
+    fun setFaddingPadding(padding: Float) {
+        faddingPadding = padding
+        needMeasure = true
+        requestLayout()
+    }
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val width = measuredWidth - paddingLeft - paddingRight

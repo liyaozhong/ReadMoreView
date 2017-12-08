@@ -18,6 +18,8 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         findViewById<SeekBar>(R.id.right_padding_seekbar).setOnSeekBarChangeListener(this)
         findViewById<SeekBar>(R.id.top_padding_seekbar).setOnSeekBarChangeListener(this)
         findViewById<SeekBar>(R.id.bottom_padding_seekbar).setOnSeekBarChangeListener(this)
+        findViewById<SeekBar>(R.id.fadding_length_seekbar).setOnSeekBarChangeListener(this)
+        findViewById<SeekBar>(R.id.fadding_padding_seekbar).setOnSeekBarChangeListener(this)
     }
 
     fun onClick(view: View) {
@@ -30,6 +32,8 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
             "right_padding" -> readmoreView.setPadding(readmoreView.paddingLeft, readmoreView.paddingTop, seekBar.progress, readmoreView.paddingBottom)
             "top_padding" -> readmoreView.setPadding(readmoreView.paddingLeft, seekBar.progress, readmoreView.paddingRight, readmoreView.paddingBottom)
             "bottom_padding" -> readmoreView.setPadding(readmoreView.paddingLeft, readmoreView.paddingTop, readmoreView.paddingRight, seekBar.progress)
+            "fadding_length" -> readmoreView.setFaddingLength(seekBar.progress.toFloat())
+            "fadding_padding" -> readmoreView.setFaddingPadding(seekBar.progress.toFloat())
         }
     }
 
